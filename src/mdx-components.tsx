@@ -37,17 +37,24 @@ const CustomParagraph: React.FC<{ children: React.ReactNode }> = ({
       parts.push(children.slice(lastIndex));
     }
 
-    return <p className="leading-7 [&:not(:first-child)]:mt-6">{parts}</p>;
+    return <p>{parts}</p>;
   }
 
-  return <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>;
+  return <p>{children}</p>;
+};
+
+const CustomTable: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <div className="table-wrapper">
+      <table>{children}</table>
+    </div>
+  );
 };
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    h1: ({ children }) => <h1>{children}</h1>,
-    h2: ({ children }) => <h2 className="">{children}</h2>,
-    p: CustomParagraph,
+    p: ({ children }) => <CustomParagraph>{children}</CustomParagraph>,
+    table: ({ children }) => <CustomTable>{children}</CustomTable>,
     ...components,
   };
 }

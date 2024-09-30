@@ -2,64 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.parsedown h1 {
-  @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
-}
-
-.parsedown h2 {
-  @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
-}
-
-.parsedown h3 {
-  @apply scroll-m-20 text-2xl font-semibold tracking-tight;
-}
-
-.parsedown h4 {
-  @apply scroll-m-20 text-xl font-semibold tracking-tight;
-}
-
-.parsedown p {
-  @apply leading-7 [&:not(:first-child)]:mt-6;
-}
-
-.parsedown blockquote {
-  @apply mt-6 border-l-2 pl-6 italic;
-}
-
-.parsedown table {
-  @apply w-full;
-}
-
-.parsedown tr {
-  @apply m-0 border-t p-0 even:bg-muted;
-}
-
-.parsedown th {
-  @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
-}
-
-.parsedown td {
-  @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
-}
-
-.parsedown ul {
-  @apply my-6 ml-6 list-disc [&>li]:mt-2;
-}
-
-.parsedown code {
-  @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -88,6 +30,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -114,13 +57,77 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .parsedown {
+    h1 {
+      @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+    }
+
+    h2 {
+      @apply mt-10 border-b scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+    }
+
+    h3 {
+      @apply mt-8 scroll-m-20 text-2xl font-semibold tracking-tight;
+    }
+
+    h4 {
+      @apply scroll-m-20 text-xl font-semibold tracking-tight;
+    }
+
+    p {
+      @apply leading-7 [&:not(:first-child)]:mt-6;
+    }
+
+    a {
+      @apply font-medium text-primary underline underline-offset-4;
+    }
+
+    blockquote {
+      @apply mt-6 border-l-2 pl-6 italic;
+    }
+    .table-wrapper {
+      @apply my-6 w-full overflow-y-auto;
+
+      table {
+        @apply w-full;
+
+        tr {
+          @apply m-0 border-t p-0 even:bg-muted;
+        }
+
+        th {
+          @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
+        }
+
+        td {
+          @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
+        }
+      }
+    }
+
+    ul {
+      @apply my-6 ml-6 list-disc [&>li]:mt-2;
+    }
+
+    code {
+      @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
