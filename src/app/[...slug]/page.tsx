@@ -1,9 +1,18 @@
-import { readVaultStructure, PageInfo } from "../../utils/fileSystemReader";
+import { readVaultStructure } from "../../utils/fileSystemReader";
 import { VAULT_PATH } from "../../config";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import fs from "fs";
+import fs from "fs/promises";
 import { useMDXComponents } from "../../mdx-components";
 import remarkGfm from "remark-gfm";
+import { notFound } from "next/navigation";
+import matter from "gray-matter";
+
+export async function generateStaticParams() {
+  const pages = readVaultStructure(VAULT_PATH);
+  return pages.map((page) => ({
+    slug: page.route.split("/").filter(Boolean),
+  }));
+}
 
 export default async function Page({ params }: { params: { slug: string[] } }) {
   const route = `/${params.slug.join("/")}`;
@@ -11,20 +20,22 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   const pageInfo = pages.find((page) => page.route === route);
 
   if (!pageInfo) {
-    return <div>Page not found</div>;
+    notFound();
   }
 
-  const content = await fs.promises.readFile(pageInfo.filePath, "utf8");
+  const source = await fs.readFile(pageInfo!.filePath, "utf8");
+  const { data: frontmatter, content } = matter(source);
+  console.log(frontmatter);
   const components = useMDXComponents({});
 
   return (
     <div className="parsedown preview flex min-h-[350px] w-full justify-center p-10 items-center">
       <div>
+        {frontmatter.title && <h1>{frontmatter.title}</h1>}
         <MDXRemote
           source={content}
           components={components as any}
           options={{
-            parseFrontmatter: true,
             mdxOptions: {
               remarkPlugins: [remarkGfm],
               rehypePlugins: [],
